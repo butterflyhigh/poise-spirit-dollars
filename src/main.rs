@@ -15,7 +15,7 @@ type Error = Box<dyn std::error::Error + Send + Sync>;
 type Context<'a> = poise::Context<'a, Data, Error>;
 
 const DATA_SUBDIR: &str = "./data";
-const DB_FILE: &str = "db.json";
+const USER_DB_FILE: &str = "userdb.json";
 
 #[tokio::main]
 async fn main() {
@@ -24,7 +24,7 @@ async fn main() {
     let intents = serenity::GatewayIntents::non_privileged();
 
     let binding = path::Path::new(DATA_SUBDIR)
-        .join(DB_FILE);
+        .join(USER_DB_FILE);
     let path = binding
         .as_os_str()
         .to_str()
@@ -48,7 +48,8 @@ async fn main() {
         .options(poise::FrameworkOptions {
             commands: vec![
                 commands::inflate_market::inflate_market(),
-                commands::get_balance::get_balance()
+                commands::get_balance::get_balance(),
+                commands::gift::gift()
             ],
             ..Default::default()
         })
